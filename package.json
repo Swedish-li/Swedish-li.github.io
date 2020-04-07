@@ -1,0 +1,16 @@
+{
+  "name": "swedish-li",
+  "version": "1.0.0",
+  "description": "swedish-li blog",
+  "author": "Swedish-li",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "vuepress dev .",
+    "build": "vuepress build ."
+  },
+  "devDependencies": {
+    "@vuepress/plugin-blog": "^1.9.2",
+    "vuepress": "^1.4.0"
+  }
+}
