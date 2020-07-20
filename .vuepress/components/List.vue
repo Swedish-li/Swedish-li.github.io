@@ -15,7 +15,6 @@ export default {
     files() {
       return this.$site.pages
         .filter(p => { 
-          console.log(p);
           return p.path.indexOf('/pages/') >= 0;
         }).sort((p1,p2) => {
           const date1 = new Date(p1.frontmatter.date);
