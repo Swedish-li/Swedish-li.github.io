@@ -435,12 +435,12 @@ Redux-Loop 不是那么的流行，但它和 Redux 本身一样受到了 Elm 的
 
 
 ## 其他资源
-[Redux-Thunk Docs](https://github.com/reduxjs/redux-thunk)
-[Dan Abramov: explaining thunks](https://egghead.io/lessons/javascript-redux-dispatching-actions-asynchronously-with-thunks)
-[CassioZen: ReactCasts #10: Redux Thunk Tricks](https://www.youtube.com/watch?v=xihoZZU0gao)
-[Dan Abramov: why you might or might not need thunks](https://stackoverflow.com/questions/35411423/how-to-dispatch-a-redux-action-with-a-timeout/35415559#35415559)
-[Dan Abramov: using state in action creators](https://stackoverflow.com/questions/35667249/accessing-redux-state-in-an-action-creator/35674575#35674575)
-[Mark Erikson: Idiomatic Redux: Thoughts on Thunks, Sagas, Abstraction, and Reusability](https://blog.isquaredsoftware.com/2017/01/idiomatic-redux-thoughts-on-thunks-sagas-abstraction-and-reusability/)
+[Redux-Thunk Docs](https://github.com/reduxjs/redux-thunk) <br>
+[Dan Abramov: explaining thunks](https://egghead.io/lessons/javascript-redux-dispatching-actions-asynchronously-with-thunks)<br>
+[CassioZen: ReactCasts #10: Redux Thunk Tricks](https://www.youtube.com/watch?v=xihoZZU0gao)<br>
+[Dan Abramov: why you might or might not need thunks](https://stackoverflow.com/questions/35411423/how-to-dispatch-a-redux-action-with-a-timeout/35415559#35415559)<br>
+[Dan Abramov: using state in action creators](https://stackoverflow.com/questions/35667249/accessing-redux-state-in-an-action-creator/35674575#35674575)<br>
+[Mark Erikson: Idiomatic Redux: Thoughts on Thunks, Sagas, Abstraction, and Reusability](https://blog.isquaredsoftware.com/2017/01/idiomatic-redux-thoughts-on-thunks-sagas-abstraction-and-reusability/)<br>
 
 
 
