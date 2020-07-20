@@ -17,6 +17,10 @@ export default {
         .filter(p => { 
           console.log(p);
           return p.path.indexOf('/pages/') >= 0;
+        }).sort((p1,p2) => {
+          const date1 = new Date(p1.frontmatter.date);
+          const date2 = new Date(p2.frontmatter.date);
+          return date1 > date2 ? -1 : 1;
         });
     }
   }
