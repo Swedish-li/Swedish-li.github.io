@@ -1,7 +1,7 @@
 module.exports = {
   title: "Swedish-li's blog",
   description: 'just My Blog',
-  theme: require.resolve('../theme'),
+  theme: require.resolve('../../theme'),
   head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   markdown: {
     lineNumbers: true

@@ -41,7 +41,6 @@ export default {
 
   computed: {
     visible() {
-      console.log(this.$frontmatter.toc)
       return (
         this.$frontmatter &&
         this.$frontmatter.toc !== false &&
