@@ -1,5 +1,5 @@
 ---
-title: "Redux 中 Thunks 的基础（译文）"
+title: "Redux 中 Thunk 基础（译文）"
 date: 2020-7-6
 tags:
   - Redux
@@ -7,14 +7,14 @@ tags:
   - Javascript
 author: Swedish li
 location: Toykyo
+toc: true
 ---
 
-<h1 class="title">{{ $page.title }}</h1>
-
-原文： [Thunks in Redux: The Basics](https://medium.com/fullstack-academy/thunks-in-redux-the-basics-85e538a3fe60)
+原文： [Thunks in Redux: The Basics](https://medium.com/fullstack-academy/thunks-in-redux-the-basics-85e538a3fe60)<br>
 
 这篇文章是作为一篇面向 React 和 Redux 初学者的简介文章，目的是为了阐明什么是 `thunks` 和使用它们的动机。
 
+<!-- more -->
 Redux 是由 Dan Abramov 创建的。它是一个 `状态容器`，它的创建受到了 Flux 中的单向数据流和 Elm 的函数式架构的启发。它提供了一种可预测的方式去管理状态，这得益于数据的不可变性，对业务逻辑的约束，作为唯一的真实数据源，并且只有少量的 API.
 
 Redux 组件之间的同步数据流和纯净的数据流有着良好明确的定义，并且职责简单。`行为创建者创建行为对象 -> 行为对象被发送到数据存储中心 -> 数据存储中心执行 Reducers -> reducers 生成新的状态 -> 状态的更新被通知到监听者`。
