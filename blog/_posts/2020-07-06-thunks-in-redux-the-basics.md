@@ -12,13 +12,13 @@ toc: true
 
 原文： [Thunks in Redux: The Basics](https://medium.com/fullstack-academy/thunks-in-redux-the-basics-85e538a3fe60)<br>
 
-这篇文章是作为一篇面向 React 和 Redux 初学者的简介文章，目的是为了阐明什么是 `thunks` 和使用它们的动机。
+这篇文章是作为一篇面向 React 和 Redux 初学者的简介文章，目的是为了阐明什么是 `thunk` 和使用它们的动机。
 
 <!-- more -->
 
-Redux 是由 Dan Abramov 创建的。它是一个 `状态容器`，它的创建受到了 Flux 中的单向数据流和 Elm 的函数式架构的启发。它提供了一种可预测的方式去管理状态，这得益于数据的不可变性，对业务逻辑的约束，作为唯一的真实数据源，并且只有少量的 API.
+Redux 是由 Dan Abramov 为了一次演讲而创建的。它是一个 `状态容器`，它的创建受到了 Flux 中的单向数据流和 Elm 的函数式架构的启发。它提供了一种可预测的方式去管理状态，这得益于数据的不可变性，对业务逻辑的约束，作为唯一的真实数据源，并且只有少量的 API.
 
-Redux 组件之间的同步数据流和纯净的数据流有着良好明确的定义，并且职责简单。`行为创建者创建行为对象 -> 行为对象被发送到数据存储中心 -> 数据存储中心执行 Reducers -> reducers 生成新的状态 -> 状态的更新被通知到监听者`。
+Redux 组件之间的同步数据流和纯净的数据流有着良好明确的定义，并且职责简单。`action 创建函数创建行为对象 -> 行为对象被发送到数据存储中心 -> 数据存储中心执行 Reducers -> reducers 生成新的状态 -> 状态的更新被通知到监听者`。
 
 不管怎样，Redux 都不是一个应用框架，也没有指定该如何处理副作用。对于这些，开发者可以通过 middleware 来使用他们喜欢的策略。
 
@@ -37,11 +37,11 @@ export default function thunkMilldleware({ dispatch, getState }) {
 
 ```
 
-直到现在，Redux-Thunk 的源码也仅仅增加到[总共14行](https://github.com/reduxjs/redux-thunk/blob/master/src/index.js)。尽管这明显很简单，不管怎样，thunks 仍然偶尔会让我们产生迷惑。如果你发现这很让你迷糊，不要害怕，我们将从回答一个更常见的问题来开始...
+直到现在，Redux-Thunk 的源码也仅仅增加到[总共14行](https://github.com/reduxjs/redux-thunk/blob/master/src/index.js)。尽管这明显很简单，不管怎样，thunk 仍然偶尔会让我们产生迷惑。如果你发现这很让你迷糊，不要害怕，我们将从回答一个更常见的问题来开始...
 
 ## 什么是 Thunks ?
 
-对于 `Thunk` 的精确定义，在不同的上下文语境下有所不同。但一般的，thunks 被认为是一种被用来进行延迟执行的函数式编程技术。与立即执行一些工作不同，你创建一个函数体或者不被立即执行的表达式（被称作 `thunk`）,可以让我们在将来的某一个时间点来选择性执行它。对比下面的例子：
+对于 `Thunk` 的精确定义，在不同的上下文语境下有所不同。但一般的，thunks 被认为是一种被用来进行延迟计算执行的函数式编程技术。与立即执行一些工作不同，你创建一个函数体或者不被立即执行的表达式（被称作 `thunk`）,可以让我们在将来的某一个时间点来选择性执行它。对比下面的例子：
 
 ```javascript
 // 立即执行版本 Eager version
@@ -110,7 +110,7 @@ const LOGIN = 'LOGIN';
 store.dispatch({ type: LOGIN, user: {name: 'Lady GaGa'} });
 ```
 
-因为在多个地方手动输入行为对象是一个潜在的代码错误（你可能会不小心将 users 写成 user），我们更倾向于使用“行为创建者”函数来生成正确格式的行为对象。
+因为在多个地方手动输入行为对象是一个潜在的代码错误（你可能会不小心将 users 写成 user），我们更倾向于使用“action 创建函数”来生成正确格式的行为对象。
 
 ```javascript
 // in an action creator module
@@ -136,14 +136,14 @@ const asyncLogin = () =>
     store.dispatch(asyncLogin()) // 不要这样; `asyncLogin()` 是一个 promise ，不是一个行为对象
 ```
 
-问题在于 `asyncLogin` 不在返回一个行为对象。为什么会这样？负载对象（用户对象）还不能使用。Redux （特指 dispatch）不知道如何去处理 promise 对象 - 至少，不能靠它自己来处理。
+问题在于 `asyncLogin` 不在返回一个 action 对象。为什么会这样？负载对象（用户对象）还不能使用。Redux （特指 dispatch）不知道如何去处理 promise 对象 - 至少，不能靠它自己来处理。
 
 ## 第一个想法： 直接调用异步操作
 
 我们可以自己在一个异步的回调中调用 store.dispatch:
 
 ```javascript
-// in an action creator module:
+// 在一个行为创建函数模块中:
 import store from '../store'
 
 const simpleLogin = user => ({ type: LOGIN, user })
@@ -165,7 +165,7 @@ asyncLogin()
 
 在我们的组件中我们有时候会调用 `store.dispatch(syncActionCreator())`，有时候会调用 `doSomeAsyncThing()`。
 
-- 在后边的例子中，由于我们没有显式的向 store 中传递数据，因此我们不能立刻知道定位到 Redux 中的行为，这让我们的应用中的数据流变的不透明。
+- 在后边的例子中，由于我们没有显式的向 store 中传递数据，因此我们不能立刻定位到 Redux 中的 action，这让我们的应用程序中的数据流变的不透明。
 
 - 如果我们在后来将一个同步的行为函数改为异步的，或者异步的改为同步的，我们该如何做？我们必须在每个使用它的组件中跟踪和修改这个函数被调用的地方。这是多么不好的方法！
 
@@ -177,7 +177,7 @@ asyncLogin 函数式不纯净的；它包含了一个副作用（网络调用）
 
 ## 缺点C：紧耦合
 
-在 asyncLogin 函数和指定的 store 产生了紧耦合。这使得它不可重用；如果我们想要将行为创造者在多个 Redux store 之间使用，例如在服务端渲染中使用，我们该怎么做？或者根本没有真实的 store，比如在测试中使用的 mock,该如何处理？
+在 asyncLogin 函数和指定的 store 产生了紧耦合。这使得它不可重用；如果我们想要将 action 创建函数在多个 Redux store 之间使用，例如在服务端渲染中使用，我们该怎么做？或者根本没有真实的 store，比如在测试中使用的 mock,该如何处理？
 
 ## 更好的方案：Thunks (最初的尝试)
 
@@ -226,7 +226,7 @@ actionOrThunk =>
 
 这正是我们我说需要的！现在我们的行为创造者可以返回对象或者函数。在前一种情况下，所有的工作都会正常执行。在后面的情况，函数将被拦截并且执行。
 
-当我们的示例 thunk 在 middleware 中被执行之后，它将会产生一个异步的效果。当这个异步处理结束之后，在回调函数或处理器函数中可以向 store 传递普通的行为对象。因此，thunks 让我暂时 `逃脱` 了正常的 Redux 循环，并且通过异步的处理函数最终重新进入了这个循环。
+当我们的示例 thunk 在 middleware 中被执行之后，它将会产生一个异步的效果。当这个异步处理结束之后，在回调函数或处理器函数中可以向 store 传递普通的 action 对象。因此，thunks 让我暂时 `逃脱` 了正常的 Redux 循环，并且通过异步的处理函数最终重新进入了这个循环。
 
 [![Redux data flow](/1_QERgzuzphdQz4e0fNs1CFQ.gif)](http://slides.com/jenyaterpil/redux-from-twitter-hype-to-production)
 
@@ -264,7 +264,7 @@ store.dispatch(thunkLogin())
 
 `getState`
 
-我们没有演示如何在 thunk 中使用 `getState`, 因为它容易被滥用。在大多数的 redux 应用中，让 reducers 去负责去使用先前的状态来决定新的状态比较合适（而不是在行为里）。当然也有一些情况下在 thunk 中读取状态是可以得到合适的解释的，不管怎样，要意识到这是一个备选的参数。Dan Abramov 发表了在行为创造函数中使用 state 的看法：
+我们没有演示如何在 thunk 中使用 `getState`, 因为它容易被滥用。在大多数的 redux 应用中，让 reducers 去负责去使用先前的状态来决定新的状态比较合适（而不是在 action 里）。当然也有一些情况下在 thunk 中读取状态是可以得到合适的解释，不管怎样，要意识到这是一个备选的参数。Dan Abramov 发表了在 action 创建函数中使用 state 的看法：
 
 [Accessing Redux state in an action creator?](https://stackoverflow.com/questions/35667249/accessing-redux-state-in-an-action-creator/35674575#35674575)
 
@@ -304,7 +304,7 @@ Promise 是异步值的组合表示，现在已经得到浏览器的原生支持
 在 Redux 使用 Promise 的初步尝试可能会像下面这样：
 
 ```javascript
-// in an action creator module:
+// 在一个 action 创建函数模块:
 import store from '../store'
 
 const simpleLogin = user => ({ type: LOGIN, user })
@@ -320,11 +320,11 @@ const promiseLogin = () =>  // 创建 行为（action）…
 store.dispatch(promiseLogin()) // 不, 这样仍然不好
 ```
 
-仔细观察；这样做本质上和我们直接调用异步处理的想法一样。`promiseLogin` 最终在成功的处理函数中分发一个 action 。我们也会将这个初始化过的 promise 分发到 store 中，但是一个潜在的 middleware 该如何处理这些 promise？我们希望有一个假想的 `redux-promise-naive` middleware 可以在 promise 传递到 reducer 之前抛弃掉它。这是可行的，但是忽略了一些问题：
+仔细观察；这样做本质上和我们直接调用异步处理的想法一样。`promiseLogin` 最终在成功的处理函数中发出一个 action 。我们也会将这个初始化过的 promise 分发到 store 中，但是一个潜在的 middleware 该如何处理这些 promise？我们希望有一个假想的 `redux-promise-naive` middleware 可以在 promise 传递到 reducer 之前抛弃掉它。这是可行的，但是忽略了一些问题：
 
 - 同样，异步代码的即时调用会让我们的组件和 action 创建函数变得不纯净，也更加难以测试。
 
-- 我们的 `promiseLogin` 方法仍然与一个指定的 store 耦合了在一起，这降低了代码的重用性。
+- 我们的 `promiseLogin` 方法仍然与一个指定的 store 耦合了在一起，这降低了代码的可重用性。
 
 - 区分 promise 对象和 action 对象可能会比较困难。
 
@@ -392,8 +392,6 @@ store.dispatch(thunkedLogin())
 ```
 同样，这种模式很容易被滥用。通常，我们试图让 React 的组件尽可能的保持纯净；在其中添加回异步的处理函数感觉是一种倒退。它也再一次让我们的 API 变得不一致。
 
-However, there are a number of times and places where using a returned promise from a dispatch call can be nice. CassioZen presents a few in his ReactCasts #10: Redux Thunk Tricks video.
-
 不管怎样，有很多不错的时间和地方可以让我们去执行 dispatch 方法调用返回的 promise, CassioZen 在他的 [`ReactCasts #10: Redux Thunk Tricks`](https://www.youtube.com/watch?v=xihoZZU0gao)视频中展示了一些。
 
 
@@ -402,7 +400,7 @@ However, there are a number of times and places where using a returned promise f
 ## Thunks 的备选方案
 <br>
 
-<iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="" style="position: static; visibility: visible; width: 550px; height: 702px; display: block; flex-grow: 1;" title="Twitter Tweet" src="https://platform.twitter.com/embed/index.html?dnt=false&amp;embedId=twitter-widget-0&amp;frame=false&amp;hideCard=false&amp;hideThread=false&amp;id=845818794673090561&amp;lang=en&amp;origin=https%3A%2F%2Fcdn.embedly.com%2Fwidgets%2Fmedia.html%3Ftype%3Dtext%252Fhtml%26key%3Da19fcc184b9711e1b4764040d3dc5c07%26schema%3Dtwitter%26url%3Dhttps%253A%2F%2Ftwitter.com%2Fdan_abramov%2Fstatus%2F845818794673090561%26image%3Dhttps%253A%2F%2Fi.embed.ly%2F1%2Fimage%253Furl%253Dhttps%25253A%25252F%25252Fpbs.twimg.com%25252Fprofile_images%25252F906557353549598720%25252FoapgW_Fp_400x400.jpg%2526key%253Da19fcc184b9711e1b4764040d3dc5c07&amp;theme=light&amp;widgetsVersion=9066bb2%3A1593540614199&amp;width=550px" data-tweet-id="845818794673090561"></iframe>
+<iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="" style="position: static; visibility: visible;  width: 550px; height: 702px; display: block; flex-grow: 1;" title="Twitter Tweet" src="https://platform.twitter.com/embed/index.html?dnt=false&amp;embedId=twitter-widget-0&amp;frame=false&amp;hideCard=false&amp;hideThread=false&amp;id=845818794673090561&amp;lang=en&amp;origin=https%3A%2F%2Fcdn.embedly.com%2Fwidgets%2Fmedia.html%3Ftype%3Dtext%252Fhtml%26key%3Da19fcc184b9711e1b4764040d3dc5c07%26schema%3Dtwitter%26url%3Dhttps%253A%2F%2Ftwitter.com%2Fdan_abramov%2Fstatus%2F845818794673090561%26image%3Dhttps%253A%2F%2Fi.embed.ly%2F1%2Fimage%253Furl%253Dhttps%25253A%25252F%25252Fpbs.twimg.com%25252Fprofile_images%25252F906557353549598720%25252FoapgW_Fp_400x400.jpg%2526key%253Da19fcc184b9711e1b4764040d3dc5c07&amp;theme=light&amp;widgetsVersion=9066bb2%3A1593540614199&amp;width=550px" data-tweet-id="845818794673090561"></iframe>
 
 
 Thunks 显然已经造成了很多令人头疼的问题。
@@ -422,8 +420,6 @@ Thunks 显然已经造成了很多令人头疼的问题。
 
 Redux-Saga 使用 Generator 函数，一个所有 Javascript 开发者都该掌握的 Javascript 原生特性。Redux-Saga 的 remainder API 是高阶的和唯一的，尽管你可以快速的掌握它，但是写出的代码可能不那么易于移植。然而，由于sagas返回所需效果的简单描述，而不是执行这些效果的函数，因此它特别适合测试。
 
-In comparison, Redux-Observable is built on RxJS, a large library with a longer learning curve. However, RxJS is useful outside of Redux-Observable as a powerful and composable way to manage asynchronicity.
-
 相比之下，Redux-Observable 是基于 RxJS 这个大型的，学习曲线陡峭的库构建的。但是，RxJS 在 Redux-Observable 之外也是有用的，它很强大且可以用组合的方式去管理异步处理。
 
 Redux-Loop 不是那么的流行，但它和 Redux 本身一样受到了 Elm 的启发，有趣的的是它不关注 action 创造函数，而是关注 Reducer；这可以让状态管理逻辑保持更加集中和受约束。
@@ -436,12 +432,12 @@ Redux-Loop 不是那么的流行，但它和 Redux 本身一样受到了 Elm 的
 
 
 ## 其他资源
-[Redux-Thunk Docs](https://github.com/reduxjs/redux-thunk) <br>
-[Dan Abramov: explaining thunks](https://egghead.io/lessons/javascript-redux-dispatching-actions-asynchronously-with-thunks)<br>
-[CassioZen: ReactCasts #10: Redux Thunk Tricks](https://www.youtube.com/watch?v=xihoZZU0gao)<br>
-[Dan Abramov: why you might or might not need thunks](https://stackoverflow.com/questions/35411423/how-to-dispatch-a-redux-action-with-a-timeout/35415559#35415559)<br>
-[Dan Abramov: using state in action creators](https://stackoverflow.com/questions/35667249/accessing-redux-state-in-an-action-creator/35674575#35674575)<br>
-[Mark Erikson: Idiomatic Redux: Thoughts on Thunks, Sagas, Abstraction, and Reusability](https://blog.isquaredsoftware.com/2017/01/idiomatic-redux-thoughts-on-thunks-sagas-abstraction-and-reusability/)<br>
+- [Redux-Thunk Docs](https://github.com/reduxjs/redux-thunk) 
+- [Dan Abramov: explaining thunks](https://egghead.io/lessons/javascript-redux-dispatching-actions-asynchronously-with-thunks)
+- [CassioZen: ReactCasts #10: Redux Thunk Tricks](https://www.youtube.com/watch?v=xihoZZU0gao)
+- [Dan Abramov: why you might or might not need thunks](https://stackoverflow.com/questions/35411423/how-to-dispatch-a-redux-action-with-a-timeout/35415559#35415559)
+- [Dan Abramov: using state in action creators](https://stackoverflow.com/questions/35667249/accessing-redux-state-in-an-action-creator/35674575#35674575)
+- [Mark Erikson: Idiomatic Redux: Thoughts on Thunks, Sagas, Abstraction, and Reusability](https://blog.isquaredsoftware.com/2017/01/idiomatic-redux-thoughts-on-thunks-sagas-abstraction-and-reusability/)
 
 
 
