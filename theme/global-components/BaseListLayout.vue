@@ -22,13 +22,12 @@
             itemprop="description"
             v-html="page.excerpt"
           />
-          <p
-            v-else
-            class="ui-post-summary"
-            itemprop="description"
-          >{{ page.frontmatter.summary || page.summary }}</p>
         </client-only>
-
+        <p
+          v-if="!page.excerpt"
+          class="ui-post-summary"
+          itemprop="description"
+        >{{ page.frontmatter.summary || page.summary }}</p>
         <!-- eslint-enable vue/no-v-html -->
 
         <footer>

@@ -17,6 +17,7 @@
 
 <script>
 import Sticker from './Sticker.vue'
+import { debounce } from './util'
 let initTop
 
 // get offset top
@@ -26,6 +27,13 @@ function getAbsoluteTop(dom) {
         document.body.scrollTop +
         document.documentElement.scrollTop
     : 0
+}
+
+const getScrollTopMax = () => {
+  const docEle = document.documentElement
+  const vh = Math.max(docEle.clientHeight || 0, window.innerHeight || 0)
+
+  return docEle.scrollHeight - vh
 }
 
 export default {
@@ -78,16 +86,16 @@ export default {
     // binding event
     setTimeout(() => this.triggerEvt(), 1000)
 
-    this._onScroll = () => this.onScroll()
+    this._onScroll = debounce(() => this.onScroll(), 80)
     this._onHashChange = () => {
       const hash = decodeURIComponent(location.hash.substring(1))
-      const index = (this.$page.headers || []).findIndex(h => h.slug === hash)
+      const index = (this.$page.headers || []).findIndex((h) => h.slug === hash)
       if (index >= 0) this.activeIndex = index
       const dom = hash && document.getElementById(hash)
       if (dom) window.scrollTo(0, getAbsoluteTop(dom) - 20)
     }
     window.addEventListener('scroll', this._onScroll)
-    // window.addEventListener('hashchange', this._onHashChange);
+    window.addEventListener('hashchange', this._onHashChange)
   },
 
   beforeDestroy() {
@@ -108,14 +116,17 @@ export default {
 
       // change active toc with scrolling
       let i = 0
-      const addLink = index => {
+      const addLink = (index) => {
         this.activeIndex = index
       }
 
       for (; i < headings.length; i++) {
         const dom = document.getElementById(headings[i].slug)
+        console.log(dom)
         const top = getAbsoluteTop(dom)
-        if (top - 50 < scrollTop) {
+        const scrollTopMax = getScrollTopMax()
+        console.log(scrollTopMax, scrollTop)
+        if (scrollTopMax - scrollTop < 5 || top - 50 < scrollTop) {
           addLink(i)
         } else {
           if (!i) addLink(i)
@@ -133,63 +144,76 @@ export default {
 </script>
 
 <style lang="stylus">
-.table-of-contents
-  display none !important
+.table-of-contents {
+  display: none !important;
+}
 
-.vuepress-toc
-  position fixed
-  display none
+.vuepress-toc {
+  position: fixed;
+  display: none;
   // max-height 100vh
-  max-width 15rem
-  overflow-y scroll
+  max-width: 15rem;
+  overflow-y: scroll;
   // padding-top 5rem
-  top $headerHeight + 3rem
-  bottom $headerHeight + 2rem
-  right 2rem
-  box-sizing border-box
+  top: $headerHeight + 3rem;
+  bottom: $headerHeight + 5rem;
+  right: 2rem;
+  box-sizing: border-box;
   /* background: #fff; */
-  z-index 0
+  z-index: 0;
 
-  &::-webkit-scrollbar
-    width 0
-    height 0
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 
-  .vuepress-toc-item
-    position relative
-    padding 0.1rem 0.6rem 0.1rem 1.5rem
-    line-height 1.5rem
-    border-left 1px solid rgba(0, 0, 0, 0.08)
-    overflow hidden
+  .vuepress-toc-item {
+    position: relative;
+    padding: 0.1rem 0.6rem 0.1rem 1.5rem;
+    line-height: 1.5rem;
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    overflow: hidden;
 
-    a
-      display block
-      color $textColor
-      width 100%
-      box-sizing border-box
-      font-size 12px
-      font-weight 400
-      text-decoration none
-      transition color 0.3s
-      overflow hidden
-      text-overflow ellipsis
-      white-space nowrap
+    a {
+      display: block;
+      color: $textColor;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 12px;
+      font-weight: 400;
+      text-decoration: none;
+      transition: color 0.3s;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-    &.active
-      border-left-color $accentColor
+    &.active {
+      border-left-color: $accentColor;
 
-      a
-        color $accentColor
+      a {
+        color: $accentColor;
+      }
+    }
 
-    &:hover
-      a
-        color $accentColor
+    &:hover {
+      a {
+        color: $accentColor;
+      }
+    }
+  }
 
-  for i in range(3, 6)
-    .vuepress-toc-h{i} a
-      padding-left 1rem * (i - 2)
+  for i in range(3, 6) {
+    .vuepress-toc-h{i} a {
+      padding-left: 1rem * (i - 2);
+    }
+  }
+}
 
 // for vuepress-toc
-@media (min-width: 1000px)
-  .vuepress-toc
-    display block
+@media (min-width: 1000px) {
+  .vuepress-toc {
+    display: block;
+  }
+}
 </style>

@@ -55,3 +55,18 @@ export function findContainerInVm(ref, vm, def) {
   }
   return container || def
 }
+
+export const debounce = function(callback, debounceTime) {
+  let timeout
+  return function() {
+    let _self = this
+    let args = Array.prototype.slice.call(arguments)
+    if (timeout) {
+      clearTimeout(timeout)
+    }
+
+    timeout = setTimeout(function() {
+      callback.apply(_self, args)
+    }, debounceTime)
+  }
+}
