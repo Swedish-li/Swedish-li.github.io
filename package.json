@@ -19,9 +19,7 @@
     "remove-markdown": "^0.3.0",
     "vue-feather-icons": "^4.21.0",
     "vuepress": "^1.5.2",
-    "vuepress-plugin-smooth-scroll": "^0.0.9"
-  },
-  "devDependencies": {
+    "vuepress-plugin-smooth-scroll": "^0.0.9",
     "@vuepress/plugin-back-to-top": "^1.5.2"
   }
 }
