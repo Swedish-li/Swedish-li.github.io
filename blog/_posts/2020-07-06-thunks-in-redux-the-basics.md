@@ -4,7 +4,7 @@ date: 2020-7-6
 tags:
   - Redux
   - Thunks
-  - Javascript
+  - JavaScript
 author: Swedish li
 location: Toykyo
 toc: true
