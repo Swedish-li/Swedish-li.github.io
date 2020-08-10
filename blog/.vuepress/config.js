@@ -4,7 +4,11 @@ module.exports = {
   theme: require.resolve('../../theme'),
   head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   markdown: {
-    lineNumbers: true
+    lineNumbers: true,
+    extendMarkdown: md => {
+      md.set({ breaks: true })
+      md.use(require('@swedish-li/markdown-it-katex'), {"throwOnError" : true, "errorColor" : " #cc0000"})
+    }
   },
   themeConfig: {
     logo: '/avatar.png',

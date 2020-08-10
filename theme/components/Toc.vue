@@ -122,10 +122,8 @@ export default {
 
       for (; i < headings.length; i++) {
         const dom = document.getElementById(headings[i].slug)
-        console.log(dom)
         const top = getAbsoluteTop(dom)
         const scrollTopMax = getScrollTopMax()
-        console.log(scrollTopMax, scrollTop)
         if (scrollTopMax - scrollTop < 5 || top - 50 < scrollTop) {
           addLink(i)
         } else {

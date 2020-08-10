@@ -10,6 +10,8 @@
     "build": "vuepress build blog"
   },
   "dependencies": {
+    "@swedish-li/markdown-it-katex": "3.0.0-beta.4",
+    "@vuepress/plugin-back-to-top": "^1.5.2",
     "@vuepress/plugin-blog": "^1.9.2",
     "@vuepress/plugin-medium-zoom": "1.0.0",
     "@vuepress/plugin-nprogress": "1.0.0",
@@ -20,6 +22,6 @@
     "vue-feather-icons": "^4.21.0",
     "vuepress": "^1.5.2",
     "vuepress-plugin-smooth-scroll": "^0.0.9",
-    "@vuepress/plugin-back-to-top": "^1.5.2"
+    "katex": "^0.12.0"
   }
 }
