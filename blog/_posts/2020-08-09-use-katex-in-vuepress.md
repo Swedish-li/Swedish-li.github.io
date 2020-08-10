@@ -19,7 +19,13 @@ toc: true
 添加 markdown-it 插件依赖
 
 ```bash
-yarn add markdown-it-katex
+yarn add @swedish-li/markdown-it-katex
+```
+
+添加 katex 依赖
+
+```bash
+yarn add katex
 ```
 
 在 config.js 中添加 [`@swedish-li/markdown-it-katex`][1] 配置
@@ -75,4 +81,4 @@ V &\rarr Rotate &\rarr V_T
 \end{alignedat}$$
 
 
-[1]: https://github.com/waylonflinn/markdown-it-katex
+[1]: https://github.com/Swedish-li/markdown-it-katex
