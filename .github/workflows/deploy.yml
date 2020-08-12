@@ -43,7 +43,7 @@ jobs:
     - name: GitHub Pages deploy
       uses: crazy-max/ghaction-github-pages@v2.1.2
       with:
-        target_branch: master
+        target_branch: gh-pages
         # Create incremental commit instead of doing push force
         keep_history: false
         # Allow an empty commit to be created
@@ -60,4 +60,4 @@ jobs:
         # Allow Jekyll to build your site
         jekyll: false
       env:
-          GH_PAT: ${{ secrets.GH_PAT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
