@@ -7,13 +7,17 @@ module.exports = {
     lineNumbers: true,
     extendMarkdown: md => {
       md.set({ breaks: true })
-      md.use(require('@swedish-li/markdown-it-katex'), {"throwOnError" : true, "errorColor" : " #cc0000"})
+      md.use(require('@swedish-li/markdown-it-katex'), {
+        throwOnError: true,
+        errorColor: ' #cc0000'
+      })
     }
   },
   themeConfig: {
     logo: '/avatar.png',
     sidebar: 'auto',
-
+    author: 'Swedish li',
+    toc: true,
     footer: {
       contact: [
         {

@@ -4,9 +4,7 @@ date: 2020-8-2
 tags:
   - Self Improvement
   - coding
-author: Swedish li
 location: Toykyo
-toc: true
 ---
 
 原文： [How to Stay Motivated to Keep Learning to Code](https://www.freecodecamp.org/news/how-to-stay-motivated-to-keep-learning-to-code/)<br>

@@ -11,7 +11,7 @@
         </h1>
         <PostMeta
           :tags="$frontmatter.tags"
-          :author="$frontmatter.author"
+          :author="getAuthor()"
           :date="$frontmatter.date"
           :location="$frontmatter.location"
         />
@@ -37,8 +37,15 @@ export default {
     Toc,
     PostMeta,
     Comment,
-    Newsletter: () => import('@theme/components/Newsletter.vue'),
+    Newsletter: () => import('@theme/components/Newsletter.vue')
   },
+  methods: {
+    getAuthor() {
+      return this.$frontmatter.author
+        ? this.$frontmatter.author
+        : this.$themeConfig.author
+    }
+  }
 }
 </script>
 

@@ -5,9 +5,7 @@ tags:
   - katex
   - markdown
   - vuepress
-author: Swedish li
 location: Toykyo
-toc: true
 ---
 
 记录如何在 Vuepress 中配置 katex 的使用和 Katex 的基本使用方式
@@ -45,8 +43,10 @@ module.exports = {
 
 在 index.styl 中导入 Katex 的样式
 
-```css
+```stylus
+
 @import '~katex/dist/katex.min.css'
+
 ```
 
 ## 在 Markdown 中使用 Latex

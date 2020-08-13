@@ -5,9 +5,7 @@ tags:
   - Redux
   - Thunks
   - JavaScript
-author: Swedish li
 location: Toykyo
-toc: true
 ---
 
 原文： [Thunks in Redux: The Basics](https://medium.com/fullstack-academy/thunks-in-redux-the-basics-85e538a3fe60)<br>
@@ -228,7 +226,7 @@ actionOrThunk =>
 
 当我们的示例 thunk 在 middleware 中被执行之后，它将会产生一个异步的效果。当这个异步处理结束之后，在回调函数或处理器函数中可以向 store 传递普通的 action 对象。因此，thunks 让我暂时 `逃脱` 了正常的 Redux 循环，并且通过异步的处理函数最终重新进入了这个循环。
 
-[![Redux data flow](/1_QERgzuzphdQz4e0fNs1CFQ.gif)](http://slides.com/jenyaterpil/redux-from-twitter-hype-to-production)
+[![Redux data flow](/images/1_QERgzuzphdQz4e0fNs1CFQ.gif)](http://slides.com/jenyaterpil/redux-from-twitter-hype-to-production)
 
 ## 依赖注入
 

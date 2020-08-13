@@ -7,7 +7,7 @@
       class="vuepress-toc-item"
       :class="[
         `vuepress-toc-h${item.level}`,
-        { active: activeIndex === index },
+        { active: activeIndex === index }
       ]"
     >
       <a :href="`#${item.slug}`" :title="item.title">{{ item.title }}</a>
@@ -38,23 +38,23 @@ const getScrollTopMax = () => {
 
 export default {
   components: {
-    Sticker,
+    Sticker
   },
 
   data() {
     return {
-      activeIndex: 0,
+      activeIndex: 0
     }
   },
 
   computed: {
     visible() {
       return (
-        this.$frontmatter &&
-        this.$frontmatter.toc !== false &&
+        (this.$themeConfig.toc ||
+          (this.$frontmatter && this.$frontmatter.toc !== false)) &&
         !!(this.$page && this.$page.headers && this.$page.headers.length)
       )
-    },
+    }
   },
 
   watch: {
@@ -72,7 +72,7 @@ export default {
       }
     },
 
-    $route() {},
+    $route() {}
   },
 
   mounted() {
@@ -89,7 +89,7 @@ export default {
     this._onScroll = debounce(() => this.onScroll(), 80)
     this._onHashChange = () => {
       const hash = decodeURIComponent(location.hash.substring(1))
-      const index = (this.$page.headers || []).findIndex((h) => h.slug === hash)
+      const index = (this.$page.headers || []).findIndex(h => h.slug === hash)
       if (index >= 0) this.activeIndex = index
       const dom = hash && document.getElementById(hash)
       if (dom) window.scrollTo(0, getAbsoluteTop(dom) - 20)
@@ -116,7 +116,7 @@ export default {
 
       // change active toc with scrolling
       let i = 0
-      const addLink = (index) => {
+      const addLink = index => {
         this.activeIndex = index
       }
 
@@ -136,8 +136,8 @@ export default {
     triggerEvt() {
       this._onScroll()
       this._onHashChange()
-    },
-  },
+    }
+  }
 }
 </script>
 
