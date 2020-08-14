@@ -900,10 +900,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@swedish-li/markdown-it-katex@3.0.0-beta.8":
-  version "3.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@swedish-li/markdown-it-katex/-/markdown-it-katex-3.0.0-beta.8.tgz#4a956dd39c23c9f692efc560083ba91cebc1498b"
-  integrity sha512-Ku3/JSJmL82Q6KCqF2mnY7vkkTkWdqymZ/Hhw2412j7N5M9wHciYO7mWEXYLKnIlEbIwSbgwJAXzHLBnvTQk2Q==
+"@swedish-li/markdown-it-katex@3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@swedish-li/markdown-it-katex/-/markdown-it-katex-3.0.0.tgz#b2b7c8d1d0ed4dc31c941a9847302ebb99a1251e"
+  integrity sha512-44uBbSmgW10cR1ST6/SuiD82A/6lFIY8VbnUup0T6AuFuHUp6fXGtUQoCUCN4deMlvUA22r7zxsFtXeZN5BNTA==
 
 "@szmarczak/http-timer@^1.1.2":
   version "1.1.2"

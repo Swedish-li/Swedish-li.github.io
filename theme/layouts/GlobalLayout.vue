@@ -45,8 +45,10 @@ export default {
   word-wrap: break-word;
 }
 
+$wrapperPaddingTop = $headerHeight + 3rem
+
 .content-wrapper {
-  padding: 160px 15px 80px 15px;
+  padding: $wrapperPaddingTop 15px 80px 15px;
   min-height: calc(100vh - 80px - 60px - 160px);
   max-width: $contentWidth;
   margin: 0 16rem 0 5rem;

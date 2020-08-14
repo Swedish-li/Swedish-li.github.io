@@ -18,6 +18,17 @@ module.exports = {
     sidebar: 'auto',
     author: 'Swedish li',
     toc: true,
+    dateFormat: 'YYYY年MM月DD日',
+    nav: [
+      {
+        text: '首页',
+        link: '/'
+      },
+      {
+        text: '标签',
+        link: '/tag/'
+      }
+    ],
     footer: {
       contact: [
         {
