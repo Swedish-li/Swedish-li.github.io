@@ -13,6 +13,14 @@ module.exports = {
       })
     }
   },
+  plugins: [
+    [
+      '@vuepress/google-analytics',
+      {
+        ga: 'UA-175472777-1' // UA-00000000-0
+      }
+    ]
+  ],
   themeConfig: {
     logo: '/avatar.png',
     sidebar: 'auto',
