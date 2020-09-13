@@ -54,7 +54,7 @@ $stickerWidth = 16rem
   max-width: $contentWidth;
   margin: 0 16rem 0 5rem;
 
-  @media (min-width: $contentWidth) {
+  @media (min-width: 1440px) {
     margin: 0 auto;
   }
 

@@ -208,8 +208,10 @@ export default {
   }
 }
 
+$tocShowWidth = $MQMobile - 1px
+
 // for vuepress-toc
-@media (min-width: 1000px) {
+@media (min-width: $tocShowWidth) {
   .vuepress-toc {
     display: block;
   }
