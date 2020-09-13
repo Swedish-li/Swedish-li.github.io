@@ -27,10 +27,24 @@ module.exports = {
     author: 'Swedish li',
     toc: true,
     dateFormat: 'YYYY年MM月DD日',
+    directories: [
+      {
+        id: 'post',
+        dirname: '_posts',
+        path: '/blog/'
+      }
+    ],
+    frontmatters: [
+      {
+        id: 'tag',
+        keys: ['tags'],
+        path: '/tag/'
+      }
+    ],
     nav: [
       {
-        text: '首页',
-        link: '/'
+        text: '博客',
+        link: '/blog/'
       },
       {
         text: '标签',
