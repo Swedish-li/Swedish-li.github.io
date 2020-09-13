@@ -15,7 +15,7 @@
   </Sticker>
 </template>
 
-<script>
+<script>  
 import Sticker from './Sticker.vue'
 import { debounce } from './util'
 let initTop
@@ -151,7 +151,7 @@ export default {
   display: none;
   // max-height 100vh
   max-width: 15rem;
-  overflow-y: scroll;
+  overflow-y: auto;
   // padding-top 5rem
   top: $headerHeight + 3rem;
   bottom: $headerHeight + 5rem;

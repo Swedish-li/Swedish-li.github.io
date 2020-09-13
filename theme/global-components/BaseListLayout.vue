@@ -15,16 +15,16 @@
           <NavLink :link="page.path">{{ page.title }}</NavLink>
         </header>
         <!-- eslint-disable vue/no-v-html -->
-        <client-only>
+        <client-only v-if="page.excerpt">
           <p
-            v-if="page.excerpt"
+            
             class="ui-post-summary"
             itemprop="description"
             v-html="page.excerpt"
           />
         </client-only>
         <p
-          v-if="!page.excerpt"
+          v-else
           class="ui-post-summary"
           itemprop="description"
         >{{ page.frontmatter.summary || page.summary }}</p>
