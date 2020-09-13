@@ -46,6 +46,7 @@ export default {
 }
 
 $wrapperPaddingTop = $headerHeight + 3rem
+$stickerWidth = 16rem
 
 .content-wrapper {
   padding: $wrapperPaddingTop 15px 80px 15px;
@@ -53,12 +54,18 @@ $wrapperPaddingTop = $headerHeight + 3rem
   max-width: $contentWidth;
   margin: 0 16rem 0 5rem;
 
-  @media (max-width: 1000px) {
+  @media (min-width: $contentWidth) {
     margin: 0 auto;
   }
 
+  // @media (min-width : 1440px){
+  //   margin-right: $stickerWidth ;
+  // }
+
   @media (max-width: $MQMobile) {
+    // margin: 0 auto;
     & {
+      margin: 0 5rem 0 5rem;
       padding: 100px 15px 20px 15px;
       min-height: calc(100vh - 20px - 60px - 100px);
     }
