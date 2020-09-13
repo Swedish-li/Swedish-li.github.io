@@ -10,7 +10,11 @@
         </div>
         <div class="header-right-wrap">
           <ul v-if="$themeConfig.nav" class="nav">
-            <li v-for="item in $themeConfig.nav" :key="item.text" class="nav-item">
+            <li
+              v-for="item in $themeConfig.nav"
+              :key="item.text"
+              class="nav-item"
+            >
               <NavLink :link="item.link">{{ item.text }}</NavLink>
             </li>
           </ul>
@@ -28,7 +32,7 @@ import Feed from './Feed'
 import Logo from './Logo'
 
 export default {
-  components: { SearchBox, Feed, Logo },
+  components: { SearchBox, Feed, Logo }
 }
 </script>
 

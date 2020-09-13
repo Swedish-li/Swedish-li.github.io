@@ -1,7 +1,8 @@
 <template>
   <div id="vuepress-theme-blog__global-layout">
-    <Header />
+    <Header v-if="visiableTitle" />
     <MobileHeader
+      v-if="visiableTitle"
       :is-open="isMobileHeaderOpen"
       @toggle-sidebar="isMobileHeaderOpen = !isMobileHeaderOpen"
     />
@@ -31,7 +32,11 @@ export default {
       isMobileHeaderOpen: false,
     }
   },
-
+ computed: {
+    visiableTitle() {
+      return !this.$frontmatter.home
+    }
+  },
   mounted() {
     this.$router.afterEach(() => {
       this.isMobileHeaderOpen = false
