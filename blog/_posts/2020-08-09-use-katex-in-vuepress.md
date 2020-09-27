@@ -1,5 +1,5 @@
 ---
-title: "在 Vuepress 中使用 Katex"
+title: '在 Vuepress 中使用 Katex'
 date: 2020-8-9
 tags:
   - katex
@@ -36,7 +36,7 @@ module.exports = {
       md.set({ break: true})
       md.use(require('@swedish-li/markdown-it-katex'))
     }
-  } 
+  }
   ...
 }
 ```
@@ -66,19 +66,19 @@ $\sqrt{3x-1}+(1+x)^2$
 ### 多行的 Latex 写法
 
 ```latex
-$$\begin{alignedat}{5} 
+$$\begin{alignedat}{5}
 P &\rarr Translate &\rarr P_T \\
 V &\rarr Rotate &\rarr V_T
 \end{alignedat}$$
 ```
 
-
 渲染结果
 
-$$\begin{alignedat}{2}
+$$
 P &\rarr Translate &\rarr P_T \\
 V &\rarr Rotate &\rarr V_T
 \end{alignedat}$$
 
 
 [1]: https://github.com/Swedish-li/markdown-it-katex
+$$

@@ -1,5 +1,5 @@
 ---
-title: "Redux 中 Thunk 基础（译文）"
+title: 'Redux 中 Thunk 基础（译文）'
 date: 2020-7-6
 tags:
   - Redux
@@ -22,20 +22,16 @@ Redux 组件之间的同步数据流和纯净的数据流有着良好明确的�
 
 > 我可能会让行为创建函数返回一个函数。如果是一个函数（行为），它将会被传入 `dispatch` 和 程序的状态信息（State） -- Dan Abramov 在 Redux 的第一个问题（issue #1）中的回应。
 
-Redux-Thunk 可以说是一个这样的，非常基础的 middleware. 当然也是第一个被很多人学习，在被单独拆分为一个单独的包之前是被  Dan Abramov 做为 Redux 的一部分而开发的。这个初始的实现小到可以在这里直接的引用它。
+Redux-Thunk 可以说是一个这样的，非常基础的 middleware. 当然也是第一个被很多人学习，在被单独拆分为一个单独的包之前是被 Dan Abramov 做为 Redux 的一部分而开发的。这个初始的实现小到可以在这里直接的引用它。
 
 ```javascript
-
 export default function thunkMilldleware({ dispatch, getState }) {
-  return next => action => 
-    typeof action === 'function' ?
-      action(dispatch, getState) :
-      next(action);
+  return next => action =>
+    typeof action === 'function' ? action(dispatch, getState) : next(action)
 }
-
 ```
 
-直到现在，Redux-Thunk 的源码也仅仅增加到[总共14行](https://github.com/reduxjs/redux-thunk/blob/master/src/index.js)。尽管这明显很简单，不管怎样，thunk 仍然偶尔会让我们产生迷惑。如果你发现这很让你迷糊，不要害怕，我们将从回答一个更常见的问题来开始...
+直到现在，Redux-Thunk 的源码也仅仅增加到[总共 14 行](https://github.com/reduxjs/redux-thunk/blob/master/src/index.js)。尽管这明显很简单，不管怎样，thunk 仍然偶尔会让我们产生迷惑。如果你发现这很让你迷糊，不要害怕，我们将从回答一个更常见的问题来开始...
 
 ## 什么是 Thunks ?
 
@@ -43,33 +39,31 @@ export default function thunkMilldleware({ dispatch, getState }) {
 
 ```javascript
 // 立即执行版本 Eager version
-function yell (text) {
-  console.log(text + '!');
-} 
+function yell(text) {
+  console.log(text + '!')
+}
 
-yell('bonjour'); // bonjour!
+yell('bonjour') // bonjour!
 
 //  Lazy (or "thunked") version 非立即执行
-function thunkYell (text) {
-  return function thunk () {
-    console.log(text + '!');
+function thunkYell(text) {
+  return function thunk() {
+    console.log(text + '!')
   }
 }
 
-const thunk = thunkYell('bonjour');
-
+const thunk = thunkYell('bonjour')
 
 // wait for it 等待执行
 
-thunk(); // 'bonjour!'
-
+thunk() // 'bonjour!'
 ```
 
 命名函数标注出 `thunk` 函数，但是箭头函数可以让这变得更加清晰。注意看一个 `thunk` 如何在执行之前要求一次额外的执行的（这个 thunk 函数是从 thunkYell(...)中返回的）:
 
 ```javascript
-const yell       = text =>       console.log(text + '!')
-const thunkYell  = text => () => console.log(text + '!')
+const yell = text => console.log(text + '!')
+const thunkYell = text => () => console.log(text + '!')
 //                          \_________________________/
 //                                      |
 //                                  the thunk
@@ -78,7 +72,7 @@ const thunkYell  = text => () => console.log(text + '!')
 这里有一个包含副作用的潜在的工作（输出日志），但是 thunks 也可以包含一些执行很慢的运算，甚至不会结束的工作。在任何的情况下，都是在后来由其它的代码来决定是否要真的执行这个 thunk :
 
 ```javascript
-const generateReport = thunk => 
+const generateReport = thunk =>
   FEELING_LAZY
     ? `Sorry, the bean counters are asleep.`
     : `You have ${thunk()} beans in your account`
@@ -96,26 +90,25 @@ const report = generateReport(counterAllTheBeans)
 
 ## React 和 Redux 中的 Thunks
 
-在 React 或 Redux 中，thunk 可以让我们避免在 行为（actions），行为创造者（action creator），组件中去直接产生包含副作用的操作。取而代之的是将任何的不纯净的操作包裹在一个 thunk 中。这些 thunk 将在晚些时候在 Middleware 中被执行以触发这些副作用。通过传递我们含有副作用的代码到 Redux 循环（在Middleware这个层级）这一个点执行，我们应用的剩余部分将保持相对的纯净。纯净的函数和组件是易于理解，测试，维护，扩展和重用的。
-
+在 React 或 Redux 中，thunk 可以让我们避免在 行为（actions），行为创造者（action creator），组件中去直接产生包含副作用的操作。取而代之的是将任何的不纯净的操作包裹在一个 thunk 中。这些 thunk 将在晚些时候在 Middleware 中被执行以触发这些副作用。通过传递我们含有副作用的代码到 Redux 循环（在 Middleware 这个层级）这一个点执行，我们应用的剩余部分将保持相对的纯净。纯净的函数和组件是易于理解，测试，维护，扩展和重用的。
 
 ## 基本原理和动机
 
 Redux 中 `store.dispatch` 的执行需要传入一个`行为（action, 这个对象要包含一个 type 属性）` :
 
 ```javascript
-const LOGIN = 'LOGIN';
-store.dispatch({ type: LOGIN, user: {name: 'Lady GaGa'} });
+const LOGIN = 'LOGIN'
+store.dispatch({ type: LOGIN, user: { name: 'Lady GaGa' } })
 ```
 
 因为在多个地方手动输入行为对象是一个潜在的代码错误（你可能会不小心将 users 写成 user），我们更倾向于使用“action 创建函数”来生成正确格式的行为对象。
 
 ```javascript
 // in an action creator module
-const login = user => ({ type: LOGIN, user});
+const login = user => ({ type: LOGIN, user })
 
 // in some component
-store.dispatch(login({name: 'Lady GaGa' })) // still dispatch an action object
+store.dispatch(login({ name: 'Lady GaGa' })) // still dispatch an action object
 ```
 
 ## 问题
@@ -123,15 +116,16 @@ store.dispatch(login({name: 'Lady GaGa' })) // still dispatch an action object
 无论如何，如果我们必须要执行一些异步的操作，例如使用 axios 库执行一个 AJAX 请求，一个简单行为创造者将不再够用。
 
 ```javascript
-const asyncLogin = () => 
-  axios.get('/api/auth/me')
+const asyncLogin = () =>
+  axios
+    .get('/api/auth/me')
     .then(res => res.data)
     .then(user => {
       // 要如何在这里使用user对象？
     })
 
-    // somewhere in component:
-    store.dispatch(asyncLogin()) // 不要这样; `asyncLogin()` 是一个 promise ，不是一个行为对象
+// somewhere in component:
+store.dispatch(asyncLogin()) // 不要这样; `asyncLogin()` 是一个 promise ，不是一个行为对象
 ```
 
 问题在于 `asyncLogin` 不在返回一个 action 对象。为什么会这样？负载对象（用户对象）还不能使用。Redux （特指 dispatch）不知道如何去处理 promise 对象 - 至少，不能靠它自己来处理。
@@ -146,8 +140,9 @@ import store from '../store'
 
 const simpleLogin = user => ({ type: LOGIN, user })
 
-const ayncLogin = () => 
-  axios.get('/api/auth/me')
+const ayncLogin = () =>
+  axios
+    .get('/api/auth/me')
     .then(res => res.data)
     .then(user => {
       store.dispatch(simpleLogin(user))
@@ -159,7 +154,7 @@ asyncLogin()
 
 看上去这样并没有什么问题。无论如何，它显示出了几个缺点。
 
-## 缺点A： 不一致的 API
+## 缺点 A： 不一致的 API
 
 在我们的组件中我们有时候会调用 `store.dispatch(syncActionCreator())`，有时候会调用 `doSomeAsyncThing()`。
 
@@ -169,11 +164,11 @@ asyncLogin()
 
 我们想要的方式是即使在执行异步行为的时候依然可以使用 store.dispatch(actionCreator())
 
-## 缺点B：不纯净的
+## 缺点 B：不纯净的
 
 asyncLogin 函数式不纯净的；它包含了一个副作用（网络调用）。当然我们最终必须要产生这个调用，我们将会在后边看到一个解决方案。但是我们把副作用集成在呢组件中，这使得组件难于修改和理解。比如在单元测试中，我们必须要拦截和修改 axios,否则组件将会产生真正的网络调用。
 
-## 缺点C：紧耦合
+## 缺点 C：紧耦合
 
 在 asyncLogin 函数和指定的 store 产生了紧耦合。这使得它不可重用；如果我们想要将 action 创建函数在多个 Redux store 之间使用，例如在服务端渲染中使用，我们该怎么做？或者根本没有真实的 store，比如在测试中使用的 mock,该如何处理？
 
@@ -187,18 +182,18 @@ import store from '../store'
 
 const simpleLogin = user => ({ type: LOGIN, user })
 
-const thunkedLogin = () => 
-  () => 
-    axios.get('/api/auth/me')
-      .then(res => res.data)
-      .then(user => {
-        store.dispatch(simpleLogin(user))
-      })
+const thunkedLogin = () => () =>
+  axios
+    .get('/api/auth/me')
+    .then(res => res.data)
+    .then(user => {
+      store.dispatch(simpleLogin(user))
+    })
 
 // 在组件中的某个地方
 store.dispatch(thunkedLogin()) // 将 thunk 传递到 store 中
 
-// thunk 本身（`() => axios.get...`）还尚未被执行 
+// thunk 本身（`() => axios.get...`）还尚未被执行
 ```
 
 我们回到了单一 API 的模式，并且我们的行为创造函数 thunkedLogin 是纯净的，或者说至少 `更加纯净一些`：当它被执行后，将返回一个函数，不会立即产生副作用。
@@ -212,10 +207,10 @@ store.dispatch(thunkedLogin()) // 将 thunk 传递到 store 中
 当 redux-middleware 一旦被安装之后，本质上意味着下面的操作：
 
 ```javascript
-actionOrThunk => 
+actionOrThunk =>
   typeof actionOrThunk === 'function'
     ? actionOrThunk(dispatch, getState)
-    : passAlong(actionOrThunk);
+    : passAlong(actionOrThunk)
 ```
 
 - 如果是普通的行为对象被传递进来，redux-thunk 只是简单的将它传递下去（例如，传递到 reducer）, 就像 redux-thunk 不存在一样。
@@ -230,7 +225,7 @@ actionOrThunk =>
 
 ## 依赖注入
 
-我们已经看到 Redux 中的 thunk 帮我们统一了 API,并使我们的行为创建函数保持纯净。不管怎样，我们的示例仍然绑定了一个特定的 store。redux-thunk 中间件为我们解决这个问题提供了一个方法： 依赖注入(Dependency injection)。DI 是一种让我降低代码之间耦合性的技术；用被提供的依赖（容易修改的）来代替代码内的声明式的获取依赖（紧耦合）。这种角色的反转是一个更加通用的的概念 [`控制反转`](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff921087(v=pandp.10)?redirectedfrom=MSDN) 的一个实例。
+我们已经看到 Redux 中的 thunk 帮我们统一了 API,并使我们的行为创建函数保持纯净。不管怎样，我们的示例仍然绑定了一个特定的 store。redux-thunk 中间件为我们解决这个问题提供了一个方法： 依赖注入(Dependency injection)。DI 是一种让我降低代码之间耦合性的技术；用被提供的依赖（容易修改的）来代替代码内的声明式的获取依赖（紧耦合）。这种角色的反转是一个更加通用的的概念 [`控制反转`](<https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff921087(v=pandp.10)?redirectedfrom=MSDN>) 的一个实例。
 
 Thunks 函数通常不接受参数，他们是潜在的运算，已经准备好了再没有额外的输入的情况下进行执行。不管怎样，redux-thunk 违反了这条规则，在实际执行的时候 thunk 的时候传入了两个参数：dispatch 和 getState。因此我们定义 thunked 行为创造者的标准模式将不需要一个范围的 store。
 
@@ -240,11 +235,15 @@ const simpleLogin = user => ({ type: LOGIN, user })
 
 // 看这里现在不需要导入 store
 
-const thunkLogin = () =>     // 行为创建者，当被执行的时候
-  dispatch =>                // 返回的 thunk ,当执行的时候，传入一个 dispatch
-    axios.get('/api/get/me') // 执行真实的请求
-      .then( res => res.data)
-      .then( user => {
+const thunkLogin = () =>
+  // 行为创建者，当被执行的时候
+  (
+    dispatch // 返回的 thunk ,当执行的时候，传入一个 dispatch
+  ) =>
+    axios
+      .get('/api/get/me') // 执行真实的请求
+      .then(res => res.data)
+      .then(user => {
         dispatch(simpleLogin(user))
       })
 
@@ -258,7 +257,7 @@ store.dispatch(thunkLogin())
 
 这是如何运行的？这个新的 dispatch 从哪里来？
 
-简单的回答就是 redux-thunk 中间件已经访问到了 store，因此可以在执行 thunk 的时候将 store 的 dispatch 和 getState 作为参数传递给它。中间件本身负责注入这些依赖到 thunk 中。行为创造者模块不需要手动的获取 store,因此行为创造者可以在多个store中使用，并且可以使用一个模拟的 dipatch。
+简单的回答就是 redux-thunk 中间件已经访问到了 store，因此可以在执行 thunk 的时候将 store 的 dispatch 和 getState 作为参数传递给它。中间件本身负责注入这些依赖到 thunk 中。行为创造者模块不需要手动的获取 store,因此行为创造者可以在多个 store 中使用，并且可以使用一个模拟的 dipatch。
 
 `getState`
 
@@ -282,9 +281,13 @@ const store = createStore(
 )
 
 // in action creator module:
-const thunkedLogin = () =>
-  (dispatch, getState, axios) => // thunk 现在可以接受 `axios` 的注入.
-    axios.get('/api/auth/me')
+const thunkedLogin = () => (
+  dispatch,
+  getState,
+  axios // thunk 现在可以接受 `axios` 的注入.
+) =>
+  axios
+    .get('/api/auth/me')
     .then(res => res.data)
     .then(user => {
       dispatch(simpleLogin(user))
@@ -295,9 +298,9 @@ const thunkedLogin = () =>
 
 ## 为什么要使用 Thunk 中间件，而不是 promise 中间件？
 
-Promise 是异步值的组合表示，现在已经得到浏览器的原生支持，并在Javascript中得到了广泛的应用。redux-promise 和 redux-promise-middleware 这两个包可以让你传递 promise 或者让行为对象包含 promise,它们都拥有不错的能力，并且可以让你在 Redux 中更轻松的做异步的处理。但是它们都没有解决不纯净的这个问题。Promise 是即时执行的；它所代表的异步操作是已经被初始化过的操作（[任务（Task）](https://folktale.origamitower.com/api/v2.0.0/en/folktale.concurrency.task.html)更像一个惰性的 Promise - 用户的代码在执行 run 方法之前不会真正被执行,这与Promise相反）。
+Promise 是异步值的组合表示，现在已经得到浏览器的原生支持，并在 Javascript 中得到了广泛的应用。redux-promise 和 redux-promise-middleware 这两个包可以让你传递 promise 或者让行为对象包含 promise,它们都拥有不错的能力，并且可以让你在 Redux 中更轻松的做异步的处理。但是它们都没有解决不纯净的这个问题。Promise 是即时执行的；它所代表的异步操作是已经被初始化过的操作（[任务（Task）](https://folktale.origamitower.com/api/v2.0.0/en/folktale.concurrency.task.html)更像一个惰性的 Promise - 用户的代码在执行 run 方法之前不会真正被执行,这与 Promise 相反）。
 
-## 幼稚的Promis使用
+## 幼稚的 Promis 使用
 
 在 Redux 使用 Promise 的初步尝试可能会像下面这样：
 
@@ -307,12 +310,14 @@ import store from '../store'
 
 const simpleLogin = user => ({ type: LOGIN, user })
 
-const promiseLogin = () =>  // 创建 行为（action）…
-  axios.get('/api/auth/me') // …返回一个 promise.
-  .then(res => res.data)
-  .then(user => {
-    store.dispatch(simpleLogin(user))
-  })
+const promiseLogin = () =>
+  // 创建 行为（action）…
+  axios
+    .get('/api/auth/me') // …返回一个 promise.
+    .then(res => res.data)
+    .then(user => {
+      store.dispatch(simpleLogin(user))
+    })
 
 // 组件中的某个地方:
 store.dispatch(promiseLogin()) // 不, 这样仍然不好
@@ -326,7 +331,7 @@ store.dispatch(promiseLogin()) // 不, 这样仍然不好
 
 - 区分 promise 对象和 action 对象可能会比较困难。
 
->P/A+ promises have a painstaking [[promiseResolutionProcedure]] for duck-typing promises safely. The foolproof way to deal with this uncertainty is to coerce values using Promise.resolve, but doing so for every Redux action is a bit heavy-handed.
+> P/A+ promises have a painstaking [[promiseResolutionProcedure]] for duck-typing promises safely. The foolproof way to deal with this uncertainty is to coerce values using Promise.resolve, but doing so for every Redux action is a bit heavy-handed.
 
 ## 更聪明的 promise 用法
 
@@ -335,10 +340,10 @@ store.dispatch(promiseLogin()) // 不, 这样仍然不好
 ```javascript
 // 使用 redux-promise-middleware
 const promiseLogin = () => ({
-  type : 'LOGIN',
+  type: 'LOGIN',
   payload: {
     promise: axios.get('/api/auth/me').then(res => res.data)
-  } 
+  }
 })
 
 // 组件中的某个地方
@@ -356,12 +361,16 @@ store.dipatch(promiseLogin())
 事实证明，没有什么可以阻碍我们在使用 redux-promise-middleware 的同时使用 redux-thunk。通过延迟 promise 的创建，我们既可以得到惰性执行的 thunks,也可以得到 redux-promise-middleware 自动发起的 action：
 
 ```javascript
-const thunkedPromiseLogin = () =>     //  替代返回d的 action
-  dispatch =>                         // 返回一个thunk, 可以延迟执行
-    dispatch({                        // 发出一个 action
-      type : 'LOGIN',
+const thunkedPromiseLogin = () =>
+  //  替代返回d的 action
+  (
+    dispatch // 返回一个thunk, 可以延迟执行
+  ) =>
+    dispatch({
+      // 发出一个 action
+      type: 'LOGIN',
       payload: {
-        promise : axios.get('/api/auth/me').then(res => res.data)
+        promise: axios.get('/api/auth/me').then(res => res.data)
       }
     })
 
@@ -376,30 +385,31 @@ store.dispatch(thunkedPromiseLogin())
 当我们使用 redux-thunk 的时候，如果我们发出一个返回 promise 的 thunk ，dispatch 方法将返回给我们相同的 promise：
 
 ```javascript
-const thunkedLogin = () =>
-  dispatch =>
-    axios.get('/api/auth/me')
+const thunkedLogin = () => dispatch =>
+  axios
+    .get('/api/auth/me')
     .then(res => res.data)
     .then(user => {
       dispatch(simpleLogin(user))
     })
 
 // 组件中的某处
-store.dispatch(thunkedLogin())
-.then(() => console.log('async from component A fulfilled'))
+store
+  .dispatch(thunkedLogin())
+  .then(() => console.log('async from component A fulfilled'))
 ```
+
 同样，这种模式很容易被滥用。通常，我们试图让 React 的组件尽可能的保持纯净；在其中添加回异步的处理函数感觉是一种倒退。它也再一次让我们的 API 变得不一致。
 
 不管怎样，有很多不错的时间和地方可以让我们去执行 dispatch 方法调用返回的 promise, CassioZen 在他的 [`ReactCasts #10: Redux Thunk Tricks`](https://www.youtube.com/watch?v=xihoZZU0gao)视频中展示了一些。
 
-
 <iframe width="560" height="315" src="https://www.youtube.com/embed/xihoZZU0gao" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Thunks 的备选方案
+
 <br>
 
 <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="" style="position: static; visibility: visible;  width: 550px; height: 702px; display: block; flex-grow: 1;" title="Twitter Tweet" src="https://platform.twitter.com/embed/index.html?dnt=false&amp;embedId=twitter-widget-0&amp;frame=false&amp;hideCard=false&amp;hideThread=false&amp;id=845818794673090561&amp;lang=en&amp;origin=https%3A%2F%2Fcdn.embedly.com%2Fwidgets%2Fmedia.html%3Ftype%3Dtext%252Fhtml%26key%3Da19fcc184b9711e1b4764040d3dc5c07%26schema%3Dtwitter%26url%3Dhttps%253A%2F%2Ftwitter.com%2Fdan_abramov%2Fstatus%2F845818794673090561%26image%3Dhttps%253A%2F%2Fi.embed.ly%2F1%2Fimage%253Furl%253Dhttps%25253A%25252F%25252Fpbs.twimg.com%25252Fprofile_images%25252F906557353549598720%25252FoapgW_Fp_400x400.jpg%2526key%253Da19fcc184b9711e1b4764040d3dc5c07&amp;theme=light&amp;widgetsVersion=9066bb2%3A1593540614199&amp;width=550px" data-tweet-id="845818794673090561"></iframe>
-
 
 Thunks 显然已经造成了很多令人头疼的问题。
 
@@ -409,14 +419,13 @@ Thunks 显然已经造成了很多令人头疼的问题。
 - [Redux-Promise-Middleware](https://github.com/pburtchaell/redux-promise-middleware)
 - (2017–11–02 追加: [Redux-Pack](https://github.com/lelandrichardson/redux-pack) 或许也值得考虑)
 
-
 同时，thunk 是其中最简单的方法。对于更加复杂的异步处理，thunk 会带来更多异步处理逻辑。更加复杂的，具有表现力的和组合的解决方案已经出现。下面列举一些已经发布的包（根据使用频度排序）；
 
 - [Redux-Saga](https://github.com/redux-saga/redux-saga), 基于 Generator 函数
 - [Redux-Observable](https://github.com/redux-observable/redux-observable), 基于 RxJS observables
 - [Redux-Loop](https://github.com/redux-loop/redux-loop), 以 Elm 中的状态管理系统为蓝本
 
-Redux-Saga 使用 Generator 函数，一个所有 Javascript 开发者都该掌握的 Javascript 原生特性。Redux-Saga 的 remainder API 是高阶的和唯一的，尽管你可以快速的掌握它，但是写出的代码可能不那么易于移植。然而，由于sagas返回所需效果的简单描述，而不是执行这些效果的函数，因此它特别适合测试。
+Redux-Saga 使用 Generator 函数，一个所有 Javascript 开发者都该掌握的 Javascript 原生特性。Redux-Saga 的 remainder API 是高阶的和唯一的，尽管你可以快速的掌握它，但是写出的代码可能不那么易于移植。然而，由于 sagas 返回所需效果的简单描述，而不是执行这些效果的函数，因此它特别适合测试。
 
 相比之下，Redux-Observable 是基于 RxJS 这个大型的，学习曲线陡峭的库构建的。但是，RxJS 在 Redux-Observable 之外也是有用的，它很强大且可以用组合的方式去管理异步处理。
 
@@ -428,14 +437,11 @@ Redux-Loop 不是那么的流行，但它和 Redux 本身一样受到了 Elm 的
 
 最终，对于只有简单异步需求的应用来说，thunk 是一个有效的解决方案。理解 thunk 对于一个 Redux 的初学者也是可行的。一旦你掌握了它们，尝试其它的备选方案也是不错的想法。
 
-
 ## 其他资源
-- [Redux-Thunk Docs](https://github.com/reduxjs/redux-thunk) 
+
+- [Redux-Thunk Docs](https://github.com/reduxjs/redux-thunk)
 - [Dan Abramov: explaining thunks](https://egghead.io/lessons/javascript-redux-dispatching-actions-asynchronously-with-thunks)
 - [CassioZen: ReactCasts #10: Redux Thunk Tricks](https://www.youtube.com/watch?v=xihoZZU0gao)
 - [Dan Abramov: why you might or might not need thunks](https://stackoverflow.com/questions/35411423/how-to-dispatch-a-redux-action-with-a-timeout/35415559#35415559)
 - [Dan Abramov: using state in action creators](https://stackoverflow.com/questions/35667249/accessing-redux-state-in-an-action-creator/35674575#35674575)
 - [Mark Erikson: Idiomatic Redux: Thoughts on Thunks, Sagas, Abstraction, and Reusability](https://blog.isquaredsoftware.com/2017/01/idiomatic-redux-thoughts-on-thunks-sagas-abstraction-and-reusability/)
-
-
-
