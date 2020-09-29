@@ -66,9 +66,6 @@ body {
 
 ### 示例 2 —— 去除重复代码
 
-Often you need to build a few different variants of components. Same base styles, just slightly different. Let’s use a case with some buttons that are different in color.
-The typical solution will be to create a base class, say .btn and add the variant classes.
-
 通常，你需要构建一些不同组件的变体。相同的基础样式，只有恨少的不同。让我们用一些拥有不同颜色的按钮的案例来演示。
 
 典型的解决方案是创建一个基础的类（class），例如 `.btn`, 然后在添加变体的类。
@@ -173,8 +170,10 @@ width: var(--custom-width, 33%);
 4. 你可以在一个 CSS 变量中包含其它 CSS 变量:
 
 ```css
---base-red-color: #f00;
---background-gradient: linear-gradient(to top, var(--base-red-color), #222);
+:root {
+  --base-red-color: #f00;
+  --background-gradient: linear-gradient(to top, var(--base-red-color), #222);
+}
 ```
 
 5. 可以使用媒体查询来创建变量。下面的例子根据屏幕的大小来改变变量 `--padding` 的值。
@@ -190,7 +189,6 @@ width: var(--custom-width, 33%);
 ```
 
 6. 不要害怕在 `calc()` 函数中使用 CSS 变量
-   Don’t be afraid to use CSS variables with the calc() function.
 
 ```css
 --text-input-width: 5000px;
