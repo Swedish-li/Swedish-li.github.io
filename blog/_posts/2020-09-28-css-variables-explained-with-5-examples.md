@@ -58,13 +58,13 @@ body {
 
 现在，让我们看看如何咋实践中使用 CSS 变量。
 
-### 示例 1 —— 管理颜色
+### 示例 1 — 管理颜色
 
 目前为止，在你的设计中使用 CSS 变量来定义颜色是 CSS 变量的最佳应用之一。我们可以把设计中颜色放到这些变量中，这样我们就不需要重复的拷贝和粘贴它们。如果有人让我们更新一个特定绿色阴影或者把所有红颜色的按钮改成蓝色，我们只需要改变 CSS 变量的值就可以了。你不需要搜索和替换所有已经存在的颜色。
 
-<iframe src="https://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fcodesandbox.io%2Fembed%2F8kkyl4mlm9&amp;url=https%3A%2F%2Fcodesandbox.io%2Fs%2F8kkyl4mlm9&amp;image=https%3A%2F%2Fcodesandbox.io%2Fapi%2Fv1%2Fsandboxes%2F8kkyl4mlm9%2Fscreenshot.png&amp;key=a19fcc184b9711e1b4764040d3dc5c07&amp;type=text%2Fhtml&amp;schema=codesandbox" allowfullscreen="" frameborder="0" height="350" width="100%" title="css1" scrolling="auto"></iframe>
+<iframe width="100%" height="300" src="//jsfiddle.net/Swedish_li/L029f6mt/embedded/css,result,html/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
 
-### 示例 2 —— 去除重复代码
+### 示例 2 — 去除重复代码
 
 通常，你需要构建一些不同组件的变体。相同的基础样式，只有恨少的不同。让我们用一些拥有不同颜色的按钮的案例来演示。
 
@@ -110,9 +110,9 @@ CSS 变量可以轻松的解决这个问题。
 }
 ```
 
-<iframe src="https://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fcodesandbox.io%2Fembed%2Fyp29qoyvyx&amp;url=https%3A%2F%2Fcodesandbox.io%2Fs%2Fyp29qoyvyx&amp;image=https%3A%2F%2Fcodesandbox.io%2Fapi%2Fv1%2Fsandboxes%2Fyp29qoyvyx%2Fscreenshot.png&amp;key=a19fcc184b9711e1b4764040d3dc5c07&amp;type=text%2Fhtml&amp;schema=codesandbox" allowfullscreen="" frameborder="0" height="350" width="100%" scrolling="auto"></iframe>
+<iframe width="100%" height="300" src="//jsfiddle.net/Swedish_li/pzxbj1vf/embedded/css,result,html/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
 
-### 示例 3 —— 让一些属性更容易阅读
+### 示例 3 — 让一些属性更容易阅读
 
 CSS 变量非常适合为一些复杂的属性创建快捷的使用方式，这样我们就不需要取记住它们。
 
@@ -120,9 +120,9 @@ CSS 变量非常适合为一些复杂的属性创建快捷的使用方式，这�
 
 我们可以把这些属性的值放到变量中，这样我们就可以用更容易阅读的格式来使用它。
 
-<iframe src="https://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fcodesandbox.io%2Fembed%2Fq3ww1znxn9&amp;url=https%3A%2F%2Fcodesandbox.io%2Fs%2Fq3ww1znxn9&amp;image=https%3A%2F%2Fcodesandbox.io%2Fapi%2Fv1%2Fsandboxes%2Fq3ww1znxn9%2Fscreenshot.png&amp;key=a19fcc184b9711e1b4764040d3dc5c07&amp;type=text%2Fhtml&amp;schema=codesandbox" allowfullscreen="" frameborder="0" height="500" width="100%" title="css2" class="t u v hy aj" scrolling="auto"></iframe>
+<iframe width="100%" height="300" src="//jsfiddle.net/Swedish_li/g53cmL8q/embedded/css,result,html/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
 
-### 示例 4 —— 变量的层叠
+### 示例 4 — 变量的层叠
 
 标注的层叠规则同样可以应用于 CSS 变量。
 
@@ -130,13 +130,13 @@ CSS 变量非常适合为一些复杂的属性创建快捷的使用方式，这�
 
 下面的示例展示了如何简单的根据用户的操作动态的改变属性，同时保证代码的清晰和简洁。
 
-<iframe src="https://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fcodesandbox.io%2Fembed%2Fxj0qxn2l7w&amp;url=https%3A%2F%2Fcodesandbox.io%2Fs%2Fxj0qxn2l7w&amp;image=https%3A%2F%2Fcodesandbox.io%2Fapi%2Fv1%2Fsandboxes%2Fxj0qxn2l7w%2Fscreenshot.png&amp;key=a19fcc184b9711e1b4764040d3dc5c07&amp;type=text%2Fhtml&amp;schema=codesandbox" allowfullscreen="" frameborder="0" height="500" width="100%" title="css3" class="t u v hy aj" scrolling="auto"></iframe>
+<iframe width="100%" height="300" src="//jsfiddle.net/Swedish_li/g13bL5dm/embedded/css,result,html/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
 
-### 示例 5 —— 使用 CSS 变量来切换主题
+### 示例 5 — 使用 CSS 变量来切换主题
 
 CSS 的一个很棒的特性是它可以对环境的变化产生响应。当你更新它们时，任何拥有这个 CSS 变量的属性都会同时获得到这个变量的更新。所以我们只需要几行的 JavaScript 和一些巧妙的 CSS 变量的使用我们就可以创造一个主题系统。
 
-<iframe src="https://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fcodesandbox.io%2Fembed%2F24j4m8y5kn&amp;url=https%3A%2F%2Fcodesandbox.io%2Fs%2F24j4m8y5kn&amp;image=https%3A%2F%2Fcodesandbox.io%2Fapi%2Fv1%2Fsandboxes%2F24j4m8y5kn%2Fscreenshot.png&amp;key=a19fcc184b9711e1b4764040d3dc5c07&amp;type=text%2Fhtml&amp;schema=codesandbox" allowfullscreen="" frameborder="0" height="500" width="100%" title="css5" class="t u v hy aj" scrolling="auto"></iframe>
+<iframe width="100%" height="300" src="//jsfiddle.net/Swedish_li/ghn73xaL/embedded/css,result,js,html/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
 
 ## 关于 CSS 变量的额外提示
 
