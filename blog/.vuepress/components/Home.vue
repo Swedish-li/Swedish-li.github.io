@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <canvas id="c"></canvas>
     <div class="avatar">
       <img src="avatar.png" alt="リトルウィッチアカデミア" />
     </div>
@@ -15,13 +14,12 @@
   width 100%
   height 500px;
   display flex
-  justify-content center
   align-items center
   flex-flow column
-  color white
   .hello {
     font-size 30px
     padding 1rem
+    text-align center
   }
   .avatar
     width 16rem
@@ -31,16 +29,11 @@
 </style>
 
 <script>
-
-console.log("home-----------------")
-
 export default {
   data() {
     return {}
   },
-  mounted() {
-  
-  },
+  mounted() {},
   methods: {}
 }
 </script>

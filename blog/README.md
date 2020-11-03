@@ -5,6 +5,6 @@ home: true
 
 <Home />
 
-<client-only>
+<!-- <client-only>
 <Trails/>
-</client-only>
+</client-only> -->
