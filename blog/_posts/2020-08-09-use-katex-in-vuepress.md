@@ -74,11 +74,9 @@ V &\rarr Rotate &\rarr V_T
 
 渲染结果
 
-$$
+$$\begin{alignedat}{5}
 P &\rarr Translate &\rarr P_T \\
 V &\rarr Rotate &\rarr V_T
 \end{alignedat}$$
 
-
 [1]: https://github.com/Swedish-li/markdown-it-katex
-$$
