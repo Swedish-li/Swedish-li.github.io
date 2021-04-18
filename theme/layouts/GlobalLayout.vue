@@ -63,15 +63,10 @@ $stickerWidth = 16rem
     margin: 0 auto;
   }
 
-  // @media (min-width : 1440px){
-  //   margin-right: $stickerWidth ;
-  // }
-
   @media (max-width: $MQMobile) {
-    // margin: 0 auto;
     & {
-      margin: 0 5rem 0 5rem;
-      padding: 100px 15px 20px 15px;
+      margin: 0 .5rem 0 .5rem;
+      padding: 100px 5px 20px 5px;
       min-height: calc(100vh - 20px - 60px - 100px);
     }
   }
