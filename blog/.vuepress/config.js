@@ -1,6 +1,6 @@
 module.exports = {
-  title: "Swedish-li's blog",
-  description: 'just My Blog',
+  // title: "Swedish-li's blog",
+  // description: 'just My Blog',
   theme: require.resolve('../../theme'),
   head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   markdown: {
@@ -21,6 +21,13 @@ module.exports = {
       }
     ]
   ],
+  locales: {
+    '/': {
+      lang: 'zh-CN',
+      title: 'Swedish-li\'s blog',
+      description: 'just My Blog'
+    }
+  },
   themeConfig: {
     logo: '/avatar.png',
     sidebar: 'auto',
